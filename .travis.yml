@@ -1,0 +1,14 @@
+---
+
+language: ruby
+
+services:
+  - docker
+
+sudo: required
+
+script:
+  - bundle exec kitchen test
+
+after_script:
+  - cat .kitchen/logs/kitchen.log

@@ -1,0 +1,16 @@
+---
+driver:
+  name: docker
+  # privileged: true
+
+provisioner:
+  name: ansible_playbook
+  hosts: localhost
+  ansible_verbose: true
+  ansible_verbosity: 4
+
+platforms:
+  - name: centos-7.3
+
+suites:
+  - name: default

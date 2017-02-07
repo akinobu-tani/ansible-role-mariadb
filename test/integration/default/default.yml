@@ -1,0 +1,7 @@
+---
+
+- hosts: localhost
+  roles:
+    - ansible-role-mariadb
+  vars:
+    mariadb_version: 10.1.21

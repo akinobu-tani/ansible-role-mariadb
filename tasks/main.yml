@@ -29,7 +29,7 @@
         - MariaDB-client
 
     - name: start service
-      service:
-        name: mysql
+      systemd:
+        name: mariadb
         state: started
         enabled: yes

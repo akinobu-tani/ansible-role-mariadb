@@ -1,7 +1,6 @@
 ---
 driver:
   name: docker
-  # privileged: true
 
 provisioner:
   name: ansible_playbook
@@ -11,6 +10,9 @@ provisioner:
 
 platforms:
   - name: centos-7.3
+    driver_config:
+      privileged: true
+      run_command: /sbin/init
 
 suites:
   - name: default

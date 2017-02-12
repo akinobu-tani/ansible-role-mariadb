@@ -1,0 +1,20 @@
+---
+
+- set_fact:
+    name: "{{user.name}}"
+    hosts: "{{user.hosts | default([user.host])}}"
+    privs: "{{user.privs | default([user.priv | default('*.*:USAGE')])}}"
+
+- name: "create user {{name}}"
+  mysql_user:
+    name: "{{name}}"
+    host: "{{loop_item[0]}}"
+    password: "{{user.password | default(None)}}"
+    priv: "{{loop_item[1]}}"
+    append_privs: "{{privs|length > 1}}"
+  with_nested:
+    - "{{ hosts }}"
+    - "{{ privs }}"
+  loop_control:
+    loop_var: loop_item
+

@@ -1,0 +1,14 @@
+---
+
+- name: create databases
+  mysql_db:
+    name: "{{item}}"
+  with_items:
+    - "{{mariadb_databases}}"
+
+- name: configure users
+  include: user.yml
+  with_items:
+    - "{{mariadb_users}}"
+  loop_control:
+    loop_var: user

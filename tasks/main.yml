@@ -7,3 +7,4 @@
     - include: configure.yml
     - include: install_mysql_python.yml
     - include: secure_installation.yml
+    - include: preparation.yml

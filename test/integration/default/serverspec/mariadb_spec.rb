@@ -20,10 +20,23 @@ describe command('mysql -e "select user, host, password from mysql.user"') do
   its(:stdout) { should match /^root\tlocalhost\t\*.*$/ }
   its(:stdout) { should match /^root\t127\.0\.0\.1\t\*.*$/ }
   its(:stdout) { should match /^root\t::1\t\*.*$/ }
+  its(:stdout) { should match /^sample_user\tlocalhost\t\*.*$/ }
+  its(:stdout) { should match /^sample_user\t127\.0\.0\.1\t\*.*$/ }
+end
+
+describe command('mysql -e "show grants for \'sample_user\'@\'localhost\'"') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /GRANT ALL PRIVILEGES ON \*\.\* TO/ }
+end
+
+describe command('mysql -e "show grants for \'sample_user\'@\'127.0.0.1\'"') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /GRANT ALL PRIVILEGES ON \*\.\* TO/ }
 end
 
 describe command('mysql -e "show databases"') do
   its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /^sample_database$/ }
   its(:stdout) { should_not match /^test$/ }
 end
 

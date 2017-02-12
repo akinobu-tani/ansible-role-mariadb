@@ -6,3 +6,12 @@
   vars:
     mariadb_version: 10.1.21
     mariadb_root_password: xxxxxxxx
+    mariadb_databases:
+      - sample_database
+    mariadb_users:
+      - name: sample_user
+        hosts:
+          - localhost
+          - 127.0.0.1
+        password: abcdefgh
+        priv: '*.*:ALL'

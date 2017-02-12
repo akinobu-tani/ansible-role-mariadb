@@ -1,2 +1,5 @@
 ---
-# defaults file for ansible-role-mysql
+
+mariadb_cnf_template: small.cnf.j2
+mariadb_server_id: 1
+mariadb_port: 3306

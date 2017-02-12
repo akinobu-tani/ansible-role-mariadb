@@ -1,0 +1,32 @@
+---
+
+- set_fact:
+    error_log_path: "{{mariadb_log_dir}}/{{mariadb_error_log}}"
+    slow_log_path: "{{mariadb_log_dir}}/{{mariadb_slow_log}}"
+
+- name: make log directory
+  file:
+    path: "{{mariadb_log_dir}}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0755
+
+- name: my.cnf
+  template:
+    src: "{{mariadb_cnf_template}}"
+    dest: /etc/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify:
+    - restart mariadb
+
+- name: log rotate
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.d/mysql
+    owner: root
+    group: root
+    mode: 0644

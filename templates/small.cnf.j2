@@ -1,0 +1,59 @@
+# Example MySQL config file for small systems.
+#
+# This is for a system with little memory (<= 64M) where MySQL is only used
+# from time to time and it's important that the mysqld daemon
+# doesn't use much resources.
+#
+# MySQL programs look for option files in a set of
+# locations which depend on the deployment platform.
+# You can copy this option file to one of those
+# locations. For information about these locations, see:
+# http://dev.mysql.com/doc/mysql/en/option-files.html
+#
+# In this file, you can use all long options that a program supports.
+# If you want to know which options a program supports, run the program
+# with the "--help" option.
+
+[client]
+port            = {{mariadb_port}}
+socket          = {{mariadb_socket_path}}
+
+[mysqld]
+port            = {{mariadb_port}}
+socket          = {{mariadb_socket_path}}
+key_buffer_size = 16K
+max_allowed_packet = 1M
+table_open_cache = 4
+sort_buffer_size = 64K
+read_buffer_size = 256K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack    = 240K
+
+server-id       = {{mariadb_server_id}}
+
+log-bin=mysql-bin
+binlog_format=mixed
+expire_logs_days = 7
+
+datadir = {{mariadb_data_dir}}
+character-set-server = utf8mb4
+
+log_error = {{error_log_path}}
+slow_query_log = ON
+slow_query_log_file = {{slow_log_path}}
+long_query_time = 0.1
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+key_buffer_size = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

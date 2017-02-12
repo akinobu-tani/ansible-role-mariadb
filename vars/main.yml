@@ -1,2 +1,8 @@
 ---
-# vars file for ansible-role-mysql
+
+mariadb_log_dir: /var/log/mysql
+mariadb_error_log: error.log
+mariadb_slow_log: slow.log
+
+mariadb_data_dir: /var/lib/mysql
+mariadb_socket_path: /var/lib/mysql/mysql.sock

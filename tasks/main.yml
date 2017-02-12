@@ -2,31 +2,9 @@
 
 - become: true
   block:
-    - when: ansible_distribution == "CentOS"
-      block:
-        - when: ansible_distribution_major_version == "7"
-          block:
-            - when: ansible_architecture == "x86_64"
-              block:
-                - set_fact:
-                    platform: "centos7-amd64"
 
-    - name: configure yum repository
-      yum_repository:
-        name: mariadb
-        description: mariadb-{{mariadb_version}}
-        baseurl: https://downloads.mariadb.com/files/MariaDB/mariadb-{{mariadb_version}}/yum/{{platform}}/
-        gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-        gpgcheck: yes
-        enabled: false
-
-    - name: install MariaDB
-      yum:
-        name: "{{item}}"
-        enablerepo: mariadb
-      with_items:
-        - MariaDB-server
-        - MariaDB-client
+    - include: install.yml
+    - include: configure.yml
 
     - name: start service
       systemd:

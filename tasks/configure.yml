@@ -30,3 +30,9 @@
     owner: root
     group: root
     mode: 0644
+
+- name: start service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes

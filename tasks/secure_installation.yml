@@ -1,0 +1,63 @@
+---
+
+- name: select remote hosts for root user
+  command: 'mysql -NBe "{{item}}"'
+  with_items:
+    - SELECT Host FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+  changed_when: false
+  register: remote_hosts_to_delete
+
+- name: delete remote hosts for root user
+  mysql_user:
+    name: root
+    host: "{{item}}"
+    state: absent
+  with_items: "{{remote_hosts_to_delete.results.0.stdout_lines}}"
+
+- name: select hosts for root user
+  command: 'mysql -NBe "{{item}}"'
+  with_items:
+    - SELECT Host FROM mysql.user WHERE User='root'
+  changed_when: false
+  register: hosts_for_root
+
+- name: set password of root user
+  mysql_user:
+    name: root
+    host: "{{item}}"
+    password: "{{mariadb_root_password}}"
+  with_items: "{{hosts_for_root.results.0.stdout_lines}}"
+
+- name: root .my.cnf
+  template:
+    src: root.my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: select hosts for anonymous user
+  command: 'mysql -NBe "{{item}}"'
+  with_items:
+    - SELECT Host FROM mysql.user WHERE User=''
+  changed_when: false
+  register: hosts_for_anonymous
+
+- name: delete anonymous user
+  mysql_user:
+    name: ""
+    host: "{{item}}"
+    state: absent
+  with_items: "{{hosts_for_anonymous.results.0.stdout_lines}}"
+
+- name: delete privileges on test database
+  mysql_db:
+    name: test
+    state: absent
+
+- name: delete privileges on test database
+  command: 'mysql -NBe "{{item}}"'
+  with_items:
+    - DELETE FROM mysql.db WHERE Db IN('test', 'test\_%'); SELECT ROW_COUNT()
+  register: delete_privileges_test_result
+  changed_when: delete_privileges_test_result.stdout|int > 0

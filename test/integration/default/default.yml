@@ -5,3 +5,4 @@
     - ansible-role-mariadb
   vars:
     mariadb_version: 10.1.21
+    mariadb_root_password: xxxxxxxx

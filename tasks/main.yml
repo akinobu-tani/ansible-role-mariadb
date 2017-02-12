@@ -5,9 +5,5 @@
 
     - include: install.yml
     - include: configure.yml
-
-    - name: start service
-      systemd:
-        name: mariadb
-        state: started
-        enabled: yes
+    - include: install_mysql_python.yml
+    - include: secure_installation.yml

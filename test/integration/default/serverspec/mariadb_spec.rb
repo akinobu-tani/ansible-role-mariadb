@@ -15,6 +15,18 @@ describe service('mariadb') do
   it { should be_enabled }
 end
 
+describe command('mysql -e "select user, host, password from mysql.user"') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /^root\tlocalhost\t\*.*$/ }
+  its(:stdout) { should match /^root\t127\.0\.0\.1\t\*.*$/ }
+  its(:stdout) { should match /^root\t::1\t\*.*$/ }
+end
+
+describe command('mysql -e "show databases"') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should_not match /^test$/ }
+end
+
 log_files.each do |file|
   describe file(file) do
     it { should exist }

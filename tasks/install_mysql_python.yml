@@ -19,7 +19,19 @@
     pip:
       name: MySQL-python
 
-- name: install mysql python package
-  yum:
-    name: MySQL-python
-  when: ansible_distribution == "Amazon"
+- when: ansible_distribution == "Amazon"
+  block:
+
+  - name: install mysql python package
+    yum:
+      name: MySQL-python26
+    when:
+      - ansible_python.version.major == 2
+      - ansible_python.version.minor == 6
+
+  - name: install mysql python package
+    yum:
+      name: MySQL-python27
+    when:
+      - ansible_python.version.major == 2
+      - ansible_python.version.minor == 7

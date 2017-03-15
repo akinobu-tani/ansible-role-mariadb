@@ -7,8 +7,18 @@ services:
 
 sudo: required
 
+bundler_args: --without development
+
+env:
+  - INSTANCE=default-centos-7
+  - INSTANCE=default-amazonlinux-201609
+
 script:
-  - bundle exec kitchen test
+  - bundle exec kitchen test $INSTANCE
 
 after_script:
   - cat .kitchen/logs/kitchen.log
+
+notifications:
+  slack:
+    secure: lnu2lFu2gCkgVXQI22uJt0G/YeBsjafiMUC489bhiAcCsw1uwlYq3Yhj07qnen9e6hE4shtwO5jQuy129rRZDnfe+Bc1abRULb9KerJZM/dmwM6xG0tZL61aV4ta8T7K1IyuqqZPKqgx/Y7IfJOzkN9dmSBaEXDS7qwr7MGqC+pxmvskIR2cwG2UGjHA/29qd4yck4NfYY7J2xzLOuQX5nJmUYrHLnaeBlX18arBed/86esWUka5tCEZzf4TZ+ZowzxzT19j64jtgooJ7X4yYLiWXMFsbeTBeRC2bW04lsLQrtJLhLWLNaMCt7Op6ZFVYwdlpBLTy9w29bBGyA+cJ4HsmytnDRVEcs7SQqZHV9VlDzQ1uY2S+srIcwSid48BJ979QOrJuB+6skDWXg9DIjit2wAYAT18tsKlCSO2yyiDOnCHQCvnmO6N7SXXnkqePxo3ymJ1YU1kSkKdc3eMZqZVsm19VTDJeVEog1Fu1nykFFxYWiGzrP4offnlbKuGDPJMu8udtcJQiNaHOYJB7cOiBKbDZJZ4gQiDyVRTNLwpZX7XSuISFq5fLcOQ7QfmV+YKsEId0LAdxc40fTFqHGpT83WD0xHDpjkNk9lYCwzT7Xa3GHTBp16RtUCc2iJbj6lpBSwhOZqHimploRCVEw1pYNLVbxgVo96xzQbCZXY=

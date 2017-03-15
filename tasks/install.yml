@@ -5,15 +5,30 @@
     - when: ansible_distribution_major_version == "7"
       block:
         - when: ansible_architecture == "x86_64"
-          block:
-            - set_fact:
-                platform: "centos7-amd64"
+          set_fact:
+            platform: "centos7-amd64"
+    - when: ansible_distribution_major_version == "6"
+      block:
+        - when: ansible_architecture == "x86_64"
+          set_fact:
+            platform: "centos6-amd64"
+        - when: ansible_architecture == "i386"
+          set_fact:
+            platform: "centos6-x86"
+- when: ansible_distribution == "Amazon"
+  block:
+    - when: ansible_architecture == "x86_64"
+      set_fact:
+        platform: "centos6-amd64"
+    - when: ansible_architecture == "i386"
+      set_fact:
+        platform: "centos6-x86"
 
 - name: configure yum repository
   yum_repository:
     name: mariadb
     description: mariadb-{{mariadb_version}}
-    baseurl: https://downloads.mariadb.com/files/MariaDB/mariadb-{{mariadb_version}}/yum/{{platform}}/
+    baseurl: http://yum.mariadb.org/{{mariadb_version}}/{{platform}}
     gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
     gpgcheck: yes
     enabled: false

@@ -5,14 +5,31 @@ driver:
 provisioner:
   name: ansible_playbook
   hosts: localhost
+  ansible_connection: ssh
+  ansible_sudo: false
   ansible_verbose: true
-  ansible_verbosity: 4
+  ansible_verbosity: 3
+  require_chef_for_busser: false
+  enable_yum_epel: true
 
 platforms:
-  - name: centos-7.3
+  - name: centos-7
     driver_config:
       privileged: true
       run_command: /sbin/init; sleep 10
+  - name: amazonlinux-2016.09
+    driver_config:
+      image: amazonlinux:2016.09
+      platform: centos
+
+verifier:
+  name: serverspec
+  patterns:
+    - roles/ansible-role-mariadb/test/integration/default/serverspec/*_spec.rb
+  env_vars:
+    TARGET_HOST: localhost
+    LOGIN_USER: kitchen
+    SSH_KEY: 'roles/ansible-role-mariadb/.kitchen/docker_id_rsa'
 
 suites:
   - name: default

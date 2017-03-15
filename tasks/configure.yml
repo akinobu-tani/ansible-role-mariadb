@@ -32,7 +32,7 @@
     mode: 0644
 
 - name: start service
-  systemd:
-    name: mariadb
+  service:
+    name: mysql
     state: started
     enabled: yes

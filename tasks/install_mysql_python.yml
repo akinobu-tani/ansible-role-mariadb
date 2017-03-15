@@ -1,17 +1,25 @@
 ---
 
-- name: install pip
-  easy_install:
-    name: pip
+- when: ansible_distribution == "CentOS"
+  block:
 
-- name: install mysql python package dependencies
-  yum: name={{item}}
-  with_items:
-    - gcc
-    - python-devel
-    - zlib-devel
-    - openssl-devel
+  - name: install pip
+    easy_install:
+      name: pip
+
+  - name: install mysql python package dependencies
+    yum: name={{item}}
+    with_items:
+      - gcc
+      - python-devel
+      - zlib-devel
+      - openssl-devel
+
+  - name: install mysql python package
+    pip:
+      name: MySQL-python
 
 - name: install mysql python package
-  pip:
+  yum:
     name: MySQL-python
+  when: ansible_distribution == "Amazon"

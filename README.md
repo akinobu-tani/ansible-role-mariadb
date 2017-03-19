@@ -26,8 +26,10 @@ mariadb_root_password: xxxxxxxx
 mariadb_cnf_template: small.cnf.j2
 mariadb_server_id: 1
 mariadb_port: 3306
+
 mariadb_databases:
   - database_name
+
 mariadb_users:
   - name: user_name
     hosts:
@@ -36,7 +38,9 @@ mariadb_users:
     password: abcdefgh
     privs:
       - db_name.*:ALL
+
 mariadb_data_dir: /var/lib/mysql
+mariadb_socket_path: /var/lib/mysql/mysql.sock
 ```
 
 Dependencies

@@ -5,3 +5,5 @@ mariadb_server_id: 1
 mariadb_port: 3306
 mariadb_databases: []
 mariadb_users: []
+
+mariadb_data_dir: /var/lib/mysql

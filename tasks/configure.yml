@@ -31,6 +31,20 @@
     group: root
     mode: 0644
 
+- name: create mysql data directory
+  file:
+    path: "{{mariadb_data_dir}}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0755
+
+- name: exec mysql_install_db
+  command: sudo -u mysql mysql_install_db
+  args:
+    creates: "{{mariadb_data_dir}}/mysql"
+  become: no
+
 - name: start service
   service:
     name: mysql

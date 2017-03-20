@@ -15,3 +15,4 @@
           - 127.0.0.1
         password: abcdefgh
         priv: '*.*:ALL'
+    mariadb_data_dir: /data/mysql

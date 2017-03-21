@@ -1,0 +1,22 @@
+---
+
+- name: check if SELinux is enabled
+  command: getenforce
+  register: getenforce_result
+  ignore_errors: yes
+  changed_when: no
+
+- when: getenforce_result|success and getenforce_result.stdout != 'Disabled'
+  block:
+
+    - name: install requirements
+      yum: name={{item}}
+      with_items:
+        - libselinux-python
+        - policycoreutils-python
+
+    - name: set SELinux context to files in data directory
+      sefcontext:
+        target: '{{mariadb_data_dir}}(/.*)?'
+        setype: mysqld_db_t
+        state: present

@@ -45,6 +45,8 @@
     creates: "{{mariadb_data_dir}}/mysql"
   become: no
 
+- include: selinux.yml
+
 - name: start service
   service:
     name: mysql

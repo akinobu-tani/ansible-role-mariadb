@@ -20,3 +20,8 @@
         target: '{{mariadb_data_dir}}(/.*)?'
         setype: mysqld_db_t
         state: present
+      register: sefcontext_result
+
+    - name: exec restorecon
+      command: restorecon -R -v {{mariadb_data_dir}}
+      when: sefcontext_result|changed

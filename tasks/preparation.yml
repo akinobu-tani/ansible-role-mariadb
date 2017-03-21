@@ -3,6 +3,7 @@
 - name: create databases
   mysql_db:
     name: "{{item}}"
+    login_unix_socket: "{{mariadb_socket_path}}"
   with_items:
     - "{{mariadb_databases}}"
 

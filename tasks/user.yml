@@ -12,6 +12,7 @@
     password: "{{user.password | default(None)}}"
     priv: "{{loop_item[1]}}"
     append_privs: "{{privs|length > 1}}"
+    login_unix_socket: "{{mariadb_socket_path}}"
   with_nested:
     - "{{ hosts }}"
     - "{{ privs }}"

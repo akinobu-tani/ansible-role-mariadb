@@ -16,3 +16,4 @@
         password: abcdefgh
         priv: '*.*:ALL'
     mariadb_data_dir: /data/mysql
+    mariadb_socket_path: /data/mysql/mysql.sock

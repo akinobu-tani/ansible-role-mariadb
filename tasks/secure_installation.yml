@@ -12,6 +12,7 @@
     name: root
     host: "{{item}}"
     state: absent
+    login_unix_socket: "{{mariadb_socket_path}}"
   with_items: "{{remote_hosts_to_delete.results.0.stdout_lines}}"
 
 - name: select hosts for root user
@@ -26,6 +27,7 @@
     name: root
     host: "{{item}}"
     password: "{{mariadb_root_password}}"
+    login_unix_socket: "{{mariadb_socket_path}}"
   with_items: "{{hosts_for_root.results.0.stdout_lines}}"
 
 - name: root .my.cnf
@@ -48,12 +50,14 @@
     name: ""
     host: "{{item}}"
     state: absent
+    login_unix_socket: "{{mariadb_socket_path}}"
   with_items: "{{hosts_for_anonymous.results.0.stdout_lines}}"
 
 - name: delete privileges on test database
   mysql_db:
     name: test
     state: absent
+    login_unix_socket: "{{mariadb_socket_path}}"
 
 - name: delete privileges on test database
   command: 'mysql -NBe "{{item}}"'

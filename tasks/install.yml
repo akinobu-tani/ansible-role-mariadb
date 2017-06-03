@@ -37,6 +37,8 @@
   yum:
     name: "{{item}}"
     enablerepo: mariadb
+    update_cache: yes
+    state: latest
   with_items:
     - MariaDB-server
     - MariaDB-client
